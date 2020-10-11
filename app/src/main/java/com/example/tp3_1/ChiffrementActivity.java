@@ -2,7 +2,7 @@ package com.example.tp3_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +12,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import android.os.Bundle;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ChiffrementActivity extends AppCompatActivity {
@@ -40,6 +45,31 @@ public class ChiffrementActivity extends AppCompatActivity {
         return algoChiffreChecked;
     }
 
+    public String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+
+        }
+        return outputStream.toString();
+    }
+
+    public String openTxtFile (View view) {
+        InputStream ins = getResources().
+                openRawResource(getResources().getIdentifier(
+                        "test",
+                        "raw", getPackageName()));
+        String text = readTextFile(ins);
+        return text;
+    }
 
     public void showResult (View view) {
         // Pass textClairePass to ResultActivity
@@ -56,28 +86,30 @@ public class ChiffrementActivity extends AppCompatActivity {
         else {
             editTextKey = findViewById(R.id.edit_text_cle);
             key = (String) editTextKey.getText().toString();
+            if (key.isEmpty()) {
+                key = (String) "3";
+            }
         }
 
         // Get user input: text
         editTextText = findViewById(R.id.edit_text_entrez_chiffre);
+
         textClaire = editTextText.getText().toString();
-
         if (TextUtils.isEmpty(textClaire)) {
-            Toast.makeText(getApplicationContext(), "Entrez votre text claire SVP.", Toast.LENGTH_SHORT);
+            textClaire = openTxtFile(view);
         }
-        else {
-            // Send Intent as Parcelable to other activity
-            // chiffre_ou_pas, algo, key, text
-            intentChiffrePassToResult = new Intent(ChiffrementActivity.this, ResultActivity.class);
-            Parametres parametres = new Parametres();
-            parametres.setChiffre_ou_pas(chiffre_ou_pas);
-            parametres.setAlgo(algoChiffreChecked);
-            parametres.setKey(key);
-            parametres.setInputText(textClaire);
 
-            intentChiffrePassToResult.putExtra("parametres", parametres);
-            startActivity(intentChiffrePassToResult);
-        }
+        // Send Intent as Parcelable to other activity
+        // chiffre_ou_pas, algo, key, text
+        intentChiffrePassToResult = new Intent(ChiffrementActivity.this, ResultActivity.class);
+        Parametres parametres = new Parametres();
+        parametres.setChiffre_ou_pas(chiffre_ou_pas);
+        parametres.setAlgo(algoChiffreChecked);
+        parametres.setKey(key);
+        parametres.setInputText(textClaire);
+
+        intentChiffrePassToResult.putExtra("parametres", parametres);
+        startActivity(intentChiffrePassToResult);
     }
 
 

@@ -3,7 +3,6 @@ package com.example.tp3_1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -55,13 +54,16 @@ public class DechiffrementActivity extends AppCompatActivity {
         else {
             editTextKey = findViewById(R.id.edit_text_cle);
             key = (String) editTextKey.getText().toString();
+            if (key.isEmpty()) {
+                key = (String) "3";
+            }
         }
 
         editTextText = findViewById(R.id.edit_text_entrez_dechiffre);
         textChiffre = editTextText.getText().toString();
 
         if (TextUtils.isEmpty(textChiffre)) {
-            Toast.makeText(getApplicationContext(), "Entrez votre texte chiffré SVP", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Entrez votre texte chiffré SVP", Toast.LENGTH_SHORT).show();
         }
         else {
             // Send Intent as Parcelable to other activity

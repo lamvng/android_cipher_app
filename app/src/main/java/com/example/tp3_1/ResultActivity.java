@@ -16,7 +16,7 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         Intent intentPassed;
-        TextView textView;
+        TextView textViewInput, textViewOutput;
         int step;
 
         intentPassed = getIntent();
@@ -26,35 +26,38 @@ public class ResultActivity extends AppCompatActivity {
         String key = parametres.getKey();
         String inputText = parametres.getInputText();
 
+        textViewInput = (TextView) findViewById(R.id.text_show_input);
+        textViewInput.setText(inputText.toUpperCase());
+
         if (chiffre_ou_pas == 1) {
-            textView = (TextView) findViewById(R.id.text_show_result);
+            textViewOutput = (TextView) findViewById(R.id.text_show_result);
 
             if (algo.equals("Caesar")) {
                 step = Integer.parseInt(key);
                 String resultTextChiffre = chiffreCaesar(inputText, step);
-                textView.setText(resultTextChiffre);
+                textViewOutput.setText(resultTextChiffre);
             }
             else if (algo.equals("Vigenere")) {
                 key = "KEY";
                 String keySequence = generateKey(inputText, key);
                 String resultTextChiffre = chiffreVigenere(inputText, keySequence);
-                textView.setText(resultTextChiffre);
+                textViewOutput.setText(resultTextChiffre);
             }
         }
         else if (chiffre_ou_pas == 0) {
-            textView = (TextView) findViewById(R.id.text_show_result);
+            textViewOutput = (TextView) findViewById(R.id.text_show_result);
 
             if (algo.equals("Caesar")) {
                 step = Integer.parseInt(key);
                 String resultTextDechiffre = deChiffreCaesar(inputText, step);
-                textView.setText(resultTextDechiffre);
+                textViewOutput.setText(resultTextDechiffre);
             }
 
             else if (algo.equals("Vigenere")) {
                 key = "KEY";
                 String keySequence = generateKey(inputText, key);
                 String resultTextDechiffre = deChiffreVigenere(inputText, keySequence);
-                textView.setText(resultTextDechiffre);
+                textViewOutput.setText(resultTextDechiffre);
             }
         }
         else {

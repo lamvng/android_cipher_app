@@ -67,7 +67,7 @@
         android:id="@+id/edit_text_cle"
         android:layout_width="218dp"
         android:layout_height="47dp"
-        android:hint="Clé utilisé"
+        android:hint="Clé utilisé pour Caesar, défault 3"
         android:textSize="20sp"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -94,13 +94,13 @@
         android:id="@+id/edit_text_entrez_chiffre"
         android:layout_width="283dp"
         android:layout_height="91dp"
+        android:hint="Votre texte claire, défault res/raw/test.txt"
         android:scrollHorizontally="false"
-        android:hint="Votre texte claire"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_entrez_chiffre"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintVertical_bias="0.062" />
 
     <Button
         android:id="@+id/button_ok_chiffre"
